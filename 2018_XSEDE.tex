@@ -1,0 +1,115 @@
+\documentclass[10.5pt]{article}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, urlcolor=blue, citecolor=black}
+\usepackage[comma, sort&compress]{natbib}
+\usepackage{fullpage}
+\usepackage{setspace}
+\begin{document}
+\begin{flushleft}
+{\large
+\textbf{Using genomics to understand adaptation in non-model organisms }
+}
+
+\vspace{8mm}
+
+\noindent
+Matthew D MacManes$^{1,2}$$^\ast$\\
+\vspace{4mm}
+
+
+\bf{1} \textnormal{\em{University of New Hampshire, Durham, NH 03824}}  \\
+
+
+\end{flushleft}
+\vspace{8mm}
+
+
+\begin{abstract}
+The genetics of phenotypic variation and adaption is one of the central problems in Evolutionary Biology. Indeed, gaining a deeper mechanistic understanding of the links between genotype, phenotype and fitness has long been focus of research.  Though long studied, only recently, with the advent of high-throughout sequencing have methods for the study of these links become available. Unlike traditional genetics, high-throughout sequencing has the power to assay all variation within entire genomes, which enables biologists to begin to understand the genetic underpinning of complex traits. During the year 2016-2017, I will analyze DNA sequence data to better understand (1) the genomics of adaption to desert life (2) adaption to a unique social environment and (3) the genetics of color polymorphism in poison dart frogs.
+In addition to these, I am an active developer of the open-source \textit{de novo} transcriptome assembler \url{trinityrnaseq.sourceforge.net}, and a moderate amount of time will be requested to support my work on the development of computational algorithms.  To conduct this work, I am asking for an allocation of 800,000 service units on the XSEDE resource \textsc{Bridges}.  
+
+
+\end{abstract}
+
+\doublespacing
+\linenumbers
+
+\vspace{12mm}
+
+\section*{Introduction}
+For biologists interested in understanding the relationship between fitness, genotype, and phenotype, these are exciting times. Rapidly developing sequencing technologies now afford researchers like myself an unprecedented opportunity to gain a deep understanding of genome level processes that together, underlie adaptation.  This newfound ability, combined with an understanding of ontogeny, evolutionary history and fitness benefit represents an extremely rich and novel context within which to test hypotheses regarding adaptation.  \\
+
+\noindentUnlike traditional Sanger sequencing, where production was measured in hundreds or thousands of bases, next generation sequencing, specifically, Illumina sequencing, can produce billions of base pairs of data every day from whole genomes, specific tissues, or parts of the genome, during specific stages in an organism’s development.  While this newfound ability to generate massive amounts of data has opened up novel avenues of study, it has challenged the existing computational infrastructure. Here, I propose to leverage the computational power of the XSEDE system (specifically PSC \textsc{Bridger} and \textsc{Stampede}) against problems that just a few years ago were considered intractable.  The proposed research is an integrative project that deals with a fundamental biological process-- adaptation. Specifically, I aim to begin analysis on a number of projects (e.g. genetics of color polymorphism), and continue work on adaptation to unique environmental conditions-- the desert, and a unique social environment.  \\
+
+\noindent
+My previous work both as a PhD student and postdoctoral scholar on computational genomics has prepared me well to pursue this line of research. Having been a Co-PI and PI on previous XSEDE grants (MCB110134 and IBN100014:) has given me the necessary technical skills to efficiently leverage XSEDE resources for analysis of these types of data. Several of these previous projects have been featured in XSEDE-related publications. ({\href{http://goo.gl/3lXKf}{Behavioral Genomics: Alone Time for Tucos}, \href{http://goo.gl/fasl6}{Monogamy and the Immune System}, and \href{http://goo.gl/iGKSN}{White Paper: Blacklight at Pittsburgh Supercomputing Center Shines Light on Life Sciences Research})
+
+\section*{Specific Study Objectives}
+
+Animals living in deserts face extraordinary challenges. For short-lived mammals like rodents, they endure extreme heat and aridity. In fact, many rodents may may survive despite never drinking, and never urinating. While the physiology underlying this phenomenon is relatively well characterized, the genetics are completely unknown. This project aims to uncover the genes and patterns of gene expression (in kidneys) related to desert survival. Though the project is currently being conducted in the field (Palm Desert, CA \url{http://deepcanyon.ucnrs.org/index.html}), future work will involve bringing animals into a lab setting where environmental conditions can me tightly controlled. \\
+
+\noindent
+For mammals, the social environment is extremely important with differences being linked to differences in gene expression \citep{WINSLOW:1993vr}. While most mammals can be classified as either social (e.g. primates) or solitary (e.g. many Felids), very few have evolved to be flexible in their social system, going from social to solitary or vice versa. The Colonial tuco tuco is one such example, and ongoing work aims to understand the relationship between the transition from social to solitary and gene expression in the hippocampus. \\
+
+\noindent
+Color polymorphism, particularly in extreme cases like poison dart frogs where color is linked to toxicity, has long been help up as a classic example of adaptation. Interestingly, despite all the interest, we have a relatively poor understanding of the genetics of color, especially in cases were individuals vary dramatically in color or patterning. With collaborators (Kyle Summers, Rasmus Nielsen), we have begun a project that aims to uncover the genomic of color polymorphism in a specific Dendrobatid frogs from Peru \url{http://www.dendrobates.org/imitator.html}.  In addition to frogs, we are beginning a parallel project using salamanders of the genus \textit{Ensatina} \url{http://www.biomedcentral.com/1471-2148/11/194/figure/F1?highres=y}, a classic model for the study of speciation.  We have generated sequence data form the skin of several individuals, and data analysis will soon commence.   
+
+
+\section*{Methods and Computational Plan}
+
+Common Experimental Design and Methods-- Many of the projects proposed here will use Illumina sequencing of tissue-specific mRNA molecules to better understand the genomic mechanisms underlying phenotype.  Because none of the species I am currently working with have reference genomes, a computationally costly assembly step is required. Although compared to genome assembly \citep{Bradnam:2013uu,Earl:2011gt}, transcriptome assembly is less challenging, significant hurdles still exist (see \cite{Francis:2013gc,Vijay:2012gy,Pyrkosz:2013tm} for examples of the types of challenges). \\
+
+\noindent
+Most modern de novo assemblers attempt to solve this problem via a \textit{de Brujin} graph representation of sequence neighborhoods, where sequences are decomposed into tiled sub-reads of length k (k-mers) and sequences sharing k-1 bases are connected by directed edges.  Currently, there are several open-sourced, peer reviewed software packages for available for short read de novo assembly (\textsc{ABySS} \citep{Birol:2009ia,Simpson:2009iv}, \textsc{Ray} \citep{Boisvert:2010dz}, \textsc{Velvet} \citep{Zerbino:2008bm}, \textsc{Oases} \citep{Schulz:2012je}, \textsc{SOAPdenovo} \citep{Li:2009cx},  and \textsc{Trinity} \citep{Haas:jq,Grabherr:2011jb}).  These software packages vary with regards to their ability to reconstruct genome sequences as coverage and DNA sequence complexity changes, and thus, each assembler will produce different results.  All \textit{de novo} genome and transcriptome assemblers have very high RAM requirements. For some of my previous work, RAM usage has exceeded 512Gb, which suggests that a large computer with shared-memory architecture may be best suited for this work.   \\
+
+\noindent
+The general workflow for transcriptome assembly is as follows. Raw sequencing reads are uploaded to Bridger.  A single .bz2 compressed archival copy is sent to the PSC Data Supercell. The working copy of the data, which can be in excess of 100Gb for a single experiment, is quality trimmed. In brief, because each nucleotide has a corresponding quality value, we can elect to remove nucleotides whose quality is below a specified threshold. In addition to reducing runtime and RAM use, this process can improve the resultant assembly quality (64 SU's per assembly (16 nodes * 4 hours)). Next, an error correction phase is begun.  This step, about which I recently published a paper \url{http://arxiv.org/pdf/1304.0817v3}, has been shown to reduce error in the final assembly (640 SU's (32 nodes * 20 hour)).  \\
+
+\noindent
+After these pre-assembly are completed, assembly begins. The 1st steps in assembly, using the software package \textsc{Trinity} include a set of parameter sweep (18,432 SU's (3 * 64 cores * 96 hours)), then a final assembly (6,144 SU's (64 cores * 96 hours)). Lastly, an assembly refinement step is initiated. This step can be completed in $\sim$24 hours, using 16 cores (384 SU
+'s). Code for the implementation of this pipeline is available at \url{https://github.com/macmanes/general_code/blob/master/assembly.mk}.  \\
+
+\noindent
+After assembly, transcript expression is quantified via a RNAseq experiment. These quantification experiments are done locally, and included here for explanatory purposes only. RNAseq experiments offer three main benefits over traditional array-based experiments \citep{tHoen:2008hn}. First, no a priori knowledge of the genes underlying phenotypic differences is required \citep{Gilad:2009km}.  This is especially important in non-model organisms, because it opens up the possibility for the identification of novel genes. Second, because the number of reads matching a given genomic region is directly related to transcript abundance, very small, yet potentially biologically relevant differences are detectable \citep{Mortazavi:2008jj}.  Lastly, the presence of alternative spicing events that can lead to different phenotypes can be discovered \citep{Sultan:2008jh}.  \\
+
+\noindent
+After quantification, population genetic analyses are done. These analyses focus on estimating selection coefficients for each transcript, and are extremely computationally intensive. While each individual analysis is relatively fast, that 20,000 transcripts (this is the typical number of transcripts per experiment) are to be tested, the computer requirements are large (20,000 * $\sim$ 3hours each (hyperthreaded)= 30,000 SU's). A small code scaling experiment was performed several months ago, on Blacklight. This experiment suggested that I could leverage maximal hyperthreading (e.g. 128 threads on 64 nodes) to obtain maximal speedup.  \\
+
+\noindent
+In addition to these common steps, a genome of the desert cactus mouse will be assembled this year. This project will greatly enhance the resolution with which analysis of functional genes related to desert adaption can be conducted. Genome construction will include several of the processes described above (e.g. trimming and error correction). The current plan is to produce 4 datasets-- 2 short insert libraries and 2 mate pair libraries, then assemble using AllPathsLG \citep{Maccallum:2009du}.  Through my work on the Assemblathon project \citep{Bradnam:2013uu}, I am familiar with these processes. Assembly will require substantial resources, estimated at 128 cores * 400 hours. Some genome assemblers leverage MPI technologies \citep{Simpson:2009iv}, as does the annotation software \citep{Cantarel:2008jo}, and therefore a substantial allocation is requested on Stampede, a resource appropriate for these large distributed jobs. 
+\section*{Justification of resources requested}Having served as a Co-PI and PI on previous XSEDE allocations (IBN-100014, MCB-110134), I am very familiar with many aspects of XSEDE resource use, specifically its efficient use for transcriptome and genome assembly.  Resulting from the previous allocation, several peer-reviewed publications have resulted; several others are in preparation (see CV), and data analysis (on Blacklight) for several others is currently in progress.  XSEDE resources are critical for this work.  Several of the datasets consist or will consist of hundreds of millions of 100 basepair-long sequence reads, which sum to more than 250Gb raw input data. These data are the starting material for analyses which require a very large amount of RAM ( $\sim$512Gb RAM loaded onto a single core), which is substantially more than any locally available computer resource available to me at UNH.  \\
+
+
+\begin{center}
+    \begin{tabular}{ | l | l | l  | l | l |}
+    \hline
+    Task &  Number of Datasets & Cores & Runtime & Total  \\ \hline
+    Trimming & 8 & 16 & 4 & 512 \\ \hline
+    Error Correction & 8 & 32 & 20 &  5120 \\ \hline
+    Assembly-1& 4 & 64 & 300 &  76,800 \\ \hline
+    Assembly-Final& 4 & 64 & 96 &  24,576 \\ \hline
+     Selection Analysis & 4 & 64 & 3*20,000 &  240,000 \\ \hline
+     Genome Assembly & 1 & 256 & 400 &  102,400 \\ \hline   
+      Total &  &  &  & 450,000 hours \\ \hline
+       \end{tabular}
+\end{center}
+
+
+\noindentIn addition to this, my work has been featured in several XSEDE publications and reports to funding agencies (NSF and NIH). I have participated in several surveys and events-- in this way I am attempting to 'give back' to the program that has helped me so much. In my role as a developer of the software package \textsc{Trinity}, I am often asked to advise researchers interesting in using Blacklight or another of the XSEDE resources.   
+
+
+
+
+
+\singlespacing
+\bibliographystyle{model2-names-edit.bst}
+
+\bibliography{formatted.bib}
+
+
+
+\end{document}
