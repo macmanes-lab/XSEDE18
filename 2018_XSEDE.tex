@@ -91,39 +91,37 @@ Common Experimental Design and Methods-- Many of the projects proposed here will
 Most modern de novo assemblers attempt to solve this problem via a \textit{de Brujin} graph representation of sequence neighborhoods, where sequences are decomposed into tiled sub-reads of length k (k-mers) and sequences sharing k-1 bases are connected by directed edges.  Currently, there are several open-sourced, peer reviewed software packages for available for short read de novo assembly (\textsc{ABySS} \citep{Birol:2009ia,Simpson:2009iv}, \textsc{Ray} \citep{Boisvert:2010dz}, \textsc{Velvet} \citep{Zerbino:2008bm}, \textsc{Oases} \citep{Schulz:2012je}, \textsc{SOAPdenovo} \citep{Li:2009cx},  and \textsc{Trinity} \citep{Haas:jq,Grabherr:2011jb}).  These software packages vary with regards to their ability to reconstruct genome sequences as coverage and DNA sequence complexity changes, and thus, each assembler will produce different results.  All \textit{de novo} genome and transcriptome assemblers have very high RAM requirements. For some of my previous work, RAM usage has exceeded 512Gb, which suggests that a large computer with shared-memory architecture may be best suited for this work.   \\
 
 \noindent
-The general workflow for transcriptome assembly is as follows. Raw sequencing reads are uploaded to Bridges.  A single .bz2 compressed archival copy is sent to the PSC Data Supercell. The working copy of the data, which can be in excess of 100Gb for a single experiment, is quality trimmed. In brief, because each nucleotide has a corresponding quality value, we can elect to remove nucleotides whose quality is below a specified threshold. In addition to reducing runtime and RAM use, this process can improve the resultant assembly quality (64 SU's per assembly (16 nodes * 4 hours)). Next, an error correction phase is begun.  This step, about which I recently published a paper \citep{MacManes:2013ec}, has been shown to reduce error in the final assembly.  \\
+The general workflow for transcriptome assembly is as follows. Raw sequencing reads are uploaded to Bridges.  A single .bz2 compressed archival copy is sent to the PSC Data Supercell. The working copy of the data, which can be in excess of 100Gb for a single experiment, is quality trimmed. In brief, because each nucleotide has a corresponding quality value, we can elect to remove nucleotides whose quality is below a specified threshold. In addition to reducing runtime and RAM use, this process can improve the resultant assembly quality (64 SU's per assembly. Next, an error correction phase is begun.  This step, about which I recently published a paper \citep{MacManes:2013ec}, has been shown to reduce error in the final assembly.  \\
 
 \noindent
-After these pre-assembly are completed, assembly begins. The 1st steps in assembly, using the software packages , \textsc{Trinity}, \textsc{Shannon}, and \textsc{SPAdes} include a set of parameter sweep (18,432 SU's (3 * 64 cores * 96 hours)), then a final assembly (6,144 SU's (64 cores * 96 hours)). Lastly, an assembly refinement step is initiated. This step can be completed in $\sim$24 hours, using 16 cores (384 SU
-'s). Code for the implementation of this pipeline is available at \url{https://github.com/macmanes/general_code/blob/master/assembly.mk}.  \\
+After these pre-assembly are completed, assembly begins. The 1st steps in assembly, using the software packages , \textsc{Trinity}, \textsc{Shannon}, and \textsc{SPAdes} include a set of parameter sweep, then a final assembly. Lastly, an assembly refinement step is initiated.   \\
 
 \noindent
-After assembly, transcript expression is quantified via a RNAseq experiment. These quantification experiments are done locally, and included here for explanatory purposes only. RNAseq experiments offer three main benefits over traditional array-based experiments \citep{tHoen:2008hn}. First, no a priori knowledge of the genes underlying phenotypic differences is required \citep{Gilad:2009km}.  This is especially important in non-model organisms, because it opens up the possibility for the identification of novel genes. Second, because the number of reads matching a given genomic region is directly related to transcript abundance, very small, yet potentially biologically relevant differences are detectable \citep{Mortazavi:2008jj}.  Lastly, the presence of alternative spicing events that can lead to different phenotypes can be discovered \citep{Sultan:2008jh}.  \\
+Assembly is coordinated by using the Oyster River Protocol, which is already installed on Bridges. Each assembly uses approximately 512Gb of RAM, and runs for between 1 and 7 days, depending on the size of the dataset. Given tens of datasets are to be assembled, the SUs requested for this aim of the proposal are 200000.  
 
 \noindent
-After quantification, population genetic analyses are done. These analyses focus on estimating selection coefficients for each transcript, and are extremely computationally intensive. While each individual analysis is relatively fast, that 20,000 transcripts (this is the typical number of transcripts per experiment) are to be tested, the computer requirements are large (20,000 * $\sim$ 3hours each (hyperthreaded)= 30,000 SU's). A small code scaling experiment was performed several months ago, on Blacklight. This experiment suggested that I could leverage maximal hyperthreading (e.g. 128 threads on 64 nodes) to obtain maximal speedup.  \\
+After assembly, transcript expression is quantified via a RNAseq experiment. These quantification experiments are done locally, and included here for explanatory purposes only. RNAseq experiments offer three main benefits over traditional array-based experiments \citep{tHoen:2008hn}. First, no a priori knowledge of the genes underlying phenotypic differences is required \citep{Gilad:2009km}.  This is especially important in non-model organisms, because it opens up the possibility for the identification of novel genes. Second, because the number of reads matching a given genomic region is directly related to transcript abundance, very small, yet potentially biologically relevant differences are detectable \citep{Mortazavi:2008jj}.  Lastly, the presence of alternative spicing events that can lead to different phenotypes can be discovered \citep{Sultan:2008jh}. These processes are relatively rapid on low-memory. For this part of the workflow, we request 185000 SUs on the RM partition of Bridges. \\
+
+\noindent
+After quantification, population genetic analyses are done. These analyses focus on estimating selection coefficients for each transcript, and are extremely computationally intensive. While each individual analysis is relatively fast, that 20,000 transcripts (this is the typical number of transcripts per experiment) are to be tested, the computer requirements are large. A small code scaling experiment was performed several months ago, on Bridges.  \\
 
 \section*{Justification of resources requested}
 Having served as a Co-PI and PI on previous XSEDE allocations (IBN-100014, MCB-110134), I am very familiar with many aspects of XSEDE resource use, specifically its efficient use for transcriptome and genome assembly.  Resulting from the previous allocation, several peer-reviewed publications have resulted; several others are in preparation (see CV), and data analysis (on Blacklight) for several others is currently in progress.  XSEDE resources are critical for this work.  Several of the datasets consist or will consist of hundreds of millions of 100 basepair-long sequence reads, which sum to more than 250Gb raw input data. These data are the starting material for analyses which require a very large amount of RAM ( $\sim$512Gb RAM loaded onto a single core), which is substantially more than any locally available computer resource available to me at UNH.  \\
 
 
 \begin{center}
-    \begin{tabular}{ | l | l | l  | l | l |}
+    \begin{tabular}{ | c | c | c | c |}
     \hline
-    Task &  Number of Datasets & Cores & Runtime & Total  \\ \hline
-    Trimming & 8 & 16 & 4 & 512 \\ \hline
-    Error Correction & 8 & 32 & 20 &  5120 \\ \hline
-    Assembly-1& 4 & 64 & 300 &  76,800 \\ \hline
-    Assembly-Final& 4 & 64 & 96 &  24,576 \\ \hline
-     Selection Analysis & 4 & 64 & 3*20,000 &  240,000 \\ \hline
-     Genome Assembly & 1 & 256 & 400 &  102,400 \\ \hline   
-      Total &  &  &  & 450,000 hours \\ \hline
+    Task & Total RM & Total LM & Total Pylon \\ \hline
+    Assembly & & 200,000 & \\ \hline  
+    Mapping &185,000 & &\\ \hline  
+    Storage & & & 25Tb\\ \hline  
+
        \end{tabular}
 \end{center}
 
 
-\noindent
-In addition to this, my work has been featured in several XSEDE publications and reports to funding agencies (NSF and NIH). I have participated in several surveys and events-- in this way I am attempting to 'give back' to the program that has helped me so much. In my role as a developer of the software package \textsc{Trinity}, I am often asked to advise researchers interesting in using Blacklight or another of the XSEDE resources.   
+
 
 
 
